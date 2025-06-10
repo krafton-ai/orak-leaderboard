@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<!-- saved from url=(0021)https://orak.com/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Orak</title>
+  <meta name="description" content="Orak: A Foundational Benchmark for Training and Evaluating LLM Agents on Diverse Video Games">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta property="og:image" content="img/logo.png">
+  <link rel="shortcut icon" href="./Orak_files/logo.png">
+  <link rel="icon" href="./Orak_files/logo.png">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link rel="stylesheet" href="./Orak_files/fonts.css">
+  <link rel="stylesheet" href="./Orak_files/styles.css">
+  <link rel="stylesheet" href="./Orak_files/all.min.css" integrity="..." crossorigin="anonymous">
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="./Orak_files/jquery.dataTables.min.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="./Orak_files/js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-H9XFCMDPNS");
+  </script>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1237.0" data-gr-ext-installed="">
+  <div style="padding-bottom: 50px">
+    <section style="background-color: white !important">
+      <div class="content-wrapper title-wrapper" style="flex-direction: column">
+        <div style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              padding-bottom: 15px;
+            ">
+          <h1 class="orak-title"> Orak </h1>
+          <img src="./Orak_files/logo.png" style="height: 120px; padding-top: 0em; padding-left: 0.5em">
+        </div>
+        <h2 style="font-size: 36px;">A Foundational Benchmark for Training and Evaluating LLM Agents on Diverse Video Games</h2>
+        <!-- TODO: <h3 style="font-size: 20px; padding-top: 1.2em">NeurIPS 2025</h3> -->
+        <p style="text-align: center;margin-top:1em;font-size: 22px;">
+          Dongmin Park*, Minkyu Kim*, Beongjun Choi*, Junhyuck Kim, Keon Lee, Jonghyun Lee,  <br>
+          Inkyu Park, Byeong-Uk Lee, Jaeyoung Hwang, Jaewoo Ahn, Ameya S. Mahabaleshwarkar, <br>
+          Bilal Kartal, Pritam Biswas, Yoshi Suhar, Kangwook Lee, and Jaewoong Cho
+        </p>
+        <div class="content-wrapper" style="display: flex; flex-direction: row; margin-top: 2em; align-items: center; justify-content: center;">
+          <a href="https://www.krafton.ai/en/">
+            <img src="./Orak_files/Krafton_logo.svg" style="height: 2.5em;padding-top:0.5em;padding-right: 2em">
+          </a>
+          <a href="https://eng.snu.ac.kr/snuEng/main/contents.do?menuNo=200097">
+            <img src="./Orak_files/SNU_logo.svg" style="height: 4em;padding-top:0.5em;padding-right: 1em">
+          </a>
+          <a href="https://www.nvidia.com/en-us/solutions/ai/">
+            <img src="./Orak_files/Nvidia-wide-logo.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em">
+          </a>
+          <a href="https://engineering.wisc.edu/departments/electrical-computer-engineering/">
+            <img src="./Orak_files/uw-logo.svg" style="height: 4em;padding-top:0.5em;padding-right: 1em">
+          </a>
+        </div>
+        <div class="content-wrapper" style="margin-top: 2em; display: flex; justify-content: center; gap: 1em;">
+          <a href="https://arxiv.org/pdf/2506.03610">
+            <button class="outline">
+              <i class="fa fa-paperclip"></i> ArXiv&nbsp;
+            </button>
+          </a>
+          <a href="https://github.com/krafton-ai/Orak">
+            <button class="outline">
+              <i class="fab fa-github"></i> Code&nbsp;
+            </button>
+          </a>
+          <a href="https://github.com/krafton-ai/Orak/blob/release/docs/submission_guideline.md">
+            <button class="outline">
+              <i class="fa fa-upload"></i> Submit&nbsp;
+            </button>
+          </a>
+          <!-- TODO: Dataset Button -->
+          <script>
+            // Define the style block as a string
+            const styleBlock = `
+              <style id="dynamic-style">
+                :root {
+                  --black: #000000;
+                  --green: #699f56;
+                  --forest: #032f14;
+                  --blue: #34566f;
+                  --grey: #40434b;
+                  --grey2: #d8d8d8;
+                  --red: #aa4926;
+                  --orange: #ff7040;
+                  --lightgreen: #C2D8B9;
+                  --darkorange: #d54718;
+          
+                  /* BALROG */
+                  /* --accent_color: rgb(200, 40, 40); */
+                  --accent_color: rgb(240, 180, 95);
+                  --outline_accent_color: #000;
+                  /* --accent_color: #FF5733; */
+                  --lighted_accent_color: rgb(90, 80, 255);
+                  --dark_accent_color: transparent;
+          
+                  /* Dark grey and gold */
+                  /* --accent_color: rgb(242, 182, 98);
+                  --dark_accent_color: rgb(41, 49, 60); */
+          
+                  /* Blue and red */
+                  /* --accent_color: #e91518;
+                  --dark_accent_color: #0454f4; */
+                  --odd_line_color: transparent;
+                  --even_line_color: transparent;
+                  --slate_gray: transparent;
+                }
+          
+                body {
+                  background-image: url('img/background.png'); /* Replace 'img/background.jpg' with your desired image path */
+                  background-size: cover; /* Ensures the image covers the entire page */
+                  background-repeat: no-repeat; /* Prevents the image from repeating */
+                  background-attachment: fixed; /* Keeps the image fixed during scrolling */
+                }
+          
+                body, h1, h2, h3, h4, h5, h6, p, a, .tablinks, table, th, td {
+                  color: #000 !important;
+                }
+
+                ul.tab {
+                  background-color: transparent !important;
+                }
+
+                ul.tab {
+                  background-color: #000;
+                }
+
+                .tablinks
+                {
+                  background-color: #333;
+                }
+
+                ul.tab li a:focus,.active
+                {
+                  background-color: #121212;
+                }
+                
+                .number, .label-date, .text-content, .sticky-header-content {
+                  color: #000 !important;
+                }
+          
+                .label-date{
+                  color: #000 !important;
+                  background-color: #fff !important;
+                }
+        
+                button {
+        
+                &.outline {
+                  color: #000 !important;
+                }
+
+                &.outline:hover {
+                  color: #40434b;
+                  border-color: #40434b;
+                  transition: all 0.2s linear;
+                }
+
+              </style>
+            `;
+            const toggleButton = document.getElementById('toggle-style-btn');
+          </script>
+
+          <!-- <a href="viewer.html">
+            <button class="outline">
+              <i class="fa fa-chart-simple"></i> Analysis&nbsp;
+            </button>
+          </a> -->
+        </div>
+      </div>
+    </section>
+    <section class="main-container">
+      <div class="content-wrapper" style="margin-top: 0em; display: flex; justify-content: center; align-items: center;">
+      </div>
+      <div class="content-wrapper">
+        <div class="content-box">
+          <h2 class="text-title"> Performance </h2>
+          <ul class="tab">
+            <li><button id="tab-leaderboard" class="tablinks active" data-performance="Leaderboard">🏆 Leaderboard</button></li>
+            <li><button id="tab-arena" class="tablinks" data-performance="Arena">🤼 Battle Arena</button></li>
+          </ul>
+          
+          <div class="tabcontent" style="display: block;" id="performance-Leaderboard">
+            <!-- Assign an ID to your table -->
+            <div id="performance-table-Leaderboard_wrapper" class="dataTables_wrapper no-footer"><table id="performance-table-leaderboard" class="table scrollable dataTable no-footer">
+              <thead>
+                <tr><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    Agent
+                  : activate to sort column ascending" style="width: 284.458px;">
+                    <div class="sticky-header-content">Model (Agentic Strategy)</div>
+                  </th><th class="sorting sorting_desc" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+                    Avg.Rank
+                  : activate to sort column ascending" style="width: 78.9271px;">
+                    <div class="sticky-header-content">Avg.Rank</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    StreetFighterIII
+                  : activate to sort column ascending" style="width: 284.458px;">
+                    <div class="sticky-header-content">StreetFighterIII</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    Supermario
+                  : activate to sort column descending" style="width: 52.6458px;">
+                    <div class="sticky-header-content">Supermario</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    AceAttorney
+                  : activate to sort column descending" style="width: 52.6458px;">
+                    <div class="sticky-header-content">AceAttorney</div>
+                  </th></th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    HerStory
+                  : activate to sort column descending" style="width: 52.6458px;">
+                    <div class="sticky-header-content">HerStory</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    Pokémon
+                  : activate to sort column descending" style="width: 76.3021px;">
+                    <div class="sticky-header-content">Pokémon</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    DarkestDungeon
+                  : activate to sort column descending" style="width: 64.6979px;">
+                    <div class="sticky-header-content">DarkestDun</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    MineCraft
+                  : activate to sort column descending" style="width: 69.5833px;">
+                    <div class="sticky-header-content">MineCraft</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    StardewValley
+                  : activate to sort column descending" style="width: 63.7708px;">
+                    <div class="sticky-header-content">StardewValley</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    StarCraftII
+                  : activate to sort column descending" style="width: 63.7708px;">
+                    <div class="sticky-header-content">StarCraftII</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    SlayTheSpire
+                  : activate to sort column descending" style="width: 63.7708px;">
+                    <div class="sticky-header-content">SlayTheSpire</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    BabaIsYou
+                  : activate to sort column descending" style="width: 63.7708px;">
+                    <div class="sticky-header-content">BabaIsYou</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-leaderboard" rowspan="1" colspan="1" aria-label="
+                    2048
+                  : activate to sort column descending" style="width: 63.7708px;">
+                    <div class="sticky-header-content">2048</div>
+                  </th></tr>
+              </thead>
+              
+              <tbody>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-1B-it (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="17.8" class="sorting_1">
+                    <p class="number">
+                      17.8
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="18.7">
+                    <p class="number">
+                      18.7 ± 8.6
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="1.3">
+                    <p class="number">
+                      1.3 ± 2.2
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="2.1">
+                    <p class="number">
+                      2.1 ± 1.2
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="6.7">
+                    <p class="number">
+                      6.7 ± 11.5
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.1
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-3B-it (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="14.6" class="sorting_1">
+                    <p class="number">
+                      14.6
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="13.3">
+                    <p class="number">
+                      13.3 ± 5.8
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="31.8">
+                    <p class="number">
+                      31.8 ± 10.1
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="4.6">
+                    <p class="number">
+                      4.6 ± 1.3
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="4.2">
+                    <p class="number">
+                      4.2 ± 1.1
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="47.5">
+                    <p class="number">
+                      47.5 ± 39.2
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.3">
+                    <p class="number">
+                      0.3 ± 0.2
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Qwen-2.5-3B-it (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="15.8" class="sorting_1">
+                    <p class="number">
+                      15.8
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="23.4">
+                    <p class="number">
+                      23.4 ± 14.1
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 17.4
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="1.2">
+                    <p class="number">
+                      1.2 ± 1.1
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="44.8">
+                    <p class="number">
+                      44.8 ± 22.2
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="13.3">
+                    <p class="number">
+                      13.3 ± 11.5
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.1">
+                    <p class="number">
+                      0.1 ± 0.1
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Qwen-2.5-7B-it (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="12.9" class="sorting_1">
+                    <p class="number">
+                      12.9
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="16.7">
+                    <p class="number">
+                      16.7 ± 11.5
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="27.2">
+                    <p class="number">
+                      27.2 ± 9.6
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="9.3">
+                    <p class="number">
+                      9.3 ± 0.2
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="8.5">
+                    <p class="number">
+                      8.5 ± 1.9
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="88.8">
+                    <p class="number">
+                      88.8 ± 2.0
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="5.0">
+                    <p class="number">
+                      5.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.6">
+                    <p class="number">
+                      0.6 ± 0.4
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Minitron-4B-it (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="14.9" class="sorting_1">
+                    <p class="number">
+                      14.9
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="16.7">
+                    <p class="number">
+                      16.7 ± 11.5
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="24.4">
+                    <p class="number">
+                      24.4 ± 6.0
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="35.7">
+                    <p class="number">
+                      35.7 ± 4.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="4.5">
+                    <p class="number">
+                      4.5 ± 2.2
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.1">
+                    <p class="number">
+                      0.1 ± 0.0
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Minitron-8B-it (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="12.5" class="sorting_1">
+                    <p class="number">
+                      12.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="23.3">
+                    <p class="number">
+                      23.3 ± 5.8
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="31.3">
+                    <p class="number">
+                      31.3 ± 12.8
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="29.9">
+                    <p class="number">
+                      29.9 ± 3.6
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="8.2">
+                    <p class="number">
+                      8.2 ± 1.8
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="63.8">
+                    <p class="number">
+                      63.8 ± 30.4
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.7">
+                    <p class="number">
+                      0.7 ± 0.7
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-mini-2025-04-16 (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="11.2" class="sorting_1">
+                    <p class="number">
+                      11.2
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="16.7">
+                    <p class="number">
+                      16.7 ± 11.5
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="28.8">
+                    <p class="number">
+                      28.8 ± 8.8
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="28.4">
+                    <p class="number">
+                      28.4 ± 2.8
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="21.1">
+                    <p class="number">
+                      21.1 ± 5.5
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="81.3">
+                    <p class="number">
+                      81.3 ± 5.8
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="46.0">
+                    <p class="number">
+                      46.0 ± 7.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="18.9">
+                    <p class="number">
+                      18.9 ± 32.7
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="75.0">
+                    <p class="number">
+                      75.0 ± 50.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="3.3">
+                    <p class="number">
+                      3.3 ± 2.9
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="13.3">
+                    <p class="number">
+                      13.3 ± 11.5
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="1.1">
+                    <p class="number">
+                      1.1 ± 1.0
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      🥈✔️GPT-4o-2024-08-06 (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="4.3" class="sorting_1">
+                    <p class="number">
+                      4.3
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="29.7">
+                    <p class="number">
+                      29.7 ± 14.3
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="34.1">
+                    <p class="number">
+                      34.1 ± 14.2
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="85.3">
+                    <p class="number">
+                      85.3 ± 1.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="64.0">
+                    <p class="number">
+                      64.0 ± 5.1
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="38.9">
+                    <p class="number">
+                      38.9 ± 9.6
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="93.4">
+                    <p class="number">
+                      93.4 ± 1.5
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="71.0">
+                    <p class="number">
+                      71.0 ± 7.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="95.7">
+                    <p class="number">
+                      95.7 ± 5.7
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="100.0">
+                    <p class="number">
+                      100.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="23.6">
+                    <p class="number">
+                      23.6 ± 22.1
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="5.6">
+                    <p class="number">
+                      5.6 ± 1.5
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      🥉✔️o3-mini-2025-01-31 (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="4.6" class="sorting_1">
+                    <p class="number">
+                      4.6
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="33.3">
+                    <p class="number">
+                      33.3 ± 15.3
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="34.9">
+                    <p class="number">
+                      34.9 ± 14.6
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="91.7">
+                    <p class="number">
+                      91.7 ± 1.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="66.3">
+                    <p class="number">
+                      66.3 ± 3.6
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="89.0">
+                    <p class="number">
+                      89.0 ± 2.1
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="75.0">
+                    <p class="number">
+                      75.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="64.7">
+                    <p class="number">
+                      64.7 ± 18.8
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="25.0">
+                    <p class="number">
+                      25.0 ± 50.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="15.0">
+                    <p class="number">
+                      15.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="73.3">
+                    <p class="number">
+                      73.3 ± 46.2
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="25.3">
+                    <p class="number">
+                      25.3 ± 7.3
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      🥇✔️Gemini-2.5-pro-preview-03-25 (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="3.9" class="sorting_1">
+                    <p class="number">
+                      3.9
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="13.3">
+                    <p class="number">
+                      13.3 ± 11.5
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="38.0">
+                    <p class="number">
+                      38.0 ± 14.4
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="55.7">
+                    <p class="number">
+                      55.7 ± 3.4
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="67.3">
+                    <p class="number">
+                      67.3 ± 3.3
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="83.3">
+                    <p class="number">
+                      83.3 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="93.7">
+                    <p class="number">
+                      93.7 ± 1.6
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="75.0">
+                    <p class="number">
+                      75.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="69.6">
+                    <p class="number">
+                      69.6 ± 11.9
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="100.0">
+                    <p class="number">
+                      100.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="51.9">
+                    <p class="number">
+                      51.9 ± 31.9
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="73.3">
+                    <p class="number">
+                      73.3 ± 46.2
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="5.1">
+                    <p class="number">
+                      5.1 ± 2.5
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Claude-3.7-sonnet (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="6.3" class="sorting_1">
+                    <p class="number">
+                      6.3
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="16.7">
+                    <p class="number">
+                      16.7 ± 11.5
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="31.7">
+                    <p class="number">
+                      31.7 ± 8.2
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="81.9">
+                    <p class="number">
+                      81.9 ± 1.6
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="62.6">
+                    <p class="number">
+                      62.6 ± 2.6
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="63.9">
+                    <p class="number">
+                      63.9 ± 19.2
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="89.9">
+                    <p class="number">
+                      89.9 ± 2.5
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="75.0">
+                    <p class="number">
+                      75.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="63.0">
+                    <p class="number">
+                      63.0 ± 24.6
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="50.0">
+                    <p class="number">
+                      50.0 ± 57.7
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="15.0">
+                    <p class="number">
+                      15.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="46.7">
+                    <p class="number">
+                      46.7 ± 46.2
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="5.3">
+                    <p class="number">
+                      5.3 ± 2.7
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Deepseek-R1-2025-01-20 (default)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="6.4" class="sorting_1">
+                    <p class="number">
+                      6.4
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="28.7">
+                    <p class="number">
+                      28.7 ± 13.2
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="83.3">
+                    <p class="number">
+                      83.3 ± 1.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="66.9">
+                    <p class="number">
+                      66.9 ± 3.9
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="75.0">
+                    <p class="number">
+                      75.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="91.7">
+                    <p class="number">
+                      91.7 ± 1.1
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="41.7">
+                    <p class="number">
+                      41.7 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="77.7">
+                    <p class="number">
+                      77.7 ± 13.6
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="50.0">
+                    <p class="number">
+                      50.0 ± 57.7
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="24.9">
+                    <p class="number">
+                      24.9 ± 17.1
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="11.5">
+                    <p class="number">
+                      11.5 ± 3.4
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-3B-it (zeroshot)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="15.4" class="sorting_1">
+                    <p class="number">
+                      15.4
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="13.3">
+                    <p class="number">
+                      13.3 ± 5.8
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="21.2">
+                    <p class="number">
+                      21.2 ± 8.2
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="5.7">
+                    <p class="number">
+                      5.7 ± 3.2
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="4.2">
+                    <p class="number">
+                      4.2 ± 1.1
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="47.5">
+                    <p class="number">
+                      47.5 ± 39.2
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.3">
+                    <p class="number">
+                      0.3 ± 0.2
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-3B-it (reflection)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="13.6" class="sorting_1">
+                    <p class="number">
+                      13.6
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="30.0">
+                    <p class="number">
+                      30.0 ± 17.3
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="32.4">
+                    <p class="number">
+                      32.4 ± 8.6
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="4.6">
+                    <p class="number">
+                      4.6 ± 1.3
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="4.4">
+                    <p class="number">
+                      4.4 ± 1.3
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="47.3">
+                    <p class="number">
+                      47.3 ± 39.0
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-3B-it (planning)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="14.5" class="sorting_1">
+                    <p class="number">
+                      14.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="27.0">
+                    <p class="number">
+                      27.0 ± 8.4
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="4.6">
+                    <p class="number">
+                      4.6 ± 1.3
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="5.1">
+                    <p class="number">
+                      5.1 ± 1.0
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="56.3">
+                    <p class="number">
+                      56.3 ± 23.6
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.1">
+                    <p class="number">
+                      0.1 ± 0.1
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-3B-it (ref-plan)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="14.1" class="sorting_1">
+                    <p class="number">
+                      14.1
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="16.7">
+                    <p class="number">
+                      16.7 ± 20.8
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="31.8">
+                    <p class="number">
+                      31.8 ± 10.1
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="3.8">
+                    <p class="number">
+                      3.8 ± 0.0
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="5.4">
+                    <p class="number">
+                      5.4 ± 0.4
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="57.0">
+                    <p class="number">
+                      57.0 ± 31.6
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="0.1">
+                    <p class="number">
+                      0.1 ± 0.2
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-2024-08-06 (zeroshot)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="7.5" class="sorting_1">
+                    <p class="number">
+                      7.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="29.7">
+                    <p class="number">
+                      29.7 ± 14.3
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="29.6">
+                    <p class="number">
+                      29.6 ± 9.2
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="49.9">
+                    <p class="number">
+                      49.9 ± 1.3
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="64.0">
+                    <p class="number highlight">
+                      64.0 ± 5.1
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="33.3">
+                    <p class="number">
+                      33.3 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="93.4">
+                    <p class="number highlight">
+                      93.4 ± 1.5
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="40.5">
+                    <p class="number">
+                      40.5 ± 35.2
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="50.0">
+                    <p class="number">
+                      50.0 ± 57.7
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="24.7">
+                    <p class="number">
+                      24.7 ± 9.2
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number highlight">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="5.6">
+                    <p class="number">
+                      5.6 ± 1.5
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-2024-08-06 (reflection)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="7.5" class="sorting_1">
+                    <p class="number">
+                      7.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="23.3">
+                    <p class="number">
+                      23.3 ± 20.8
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="32.3">
+                    <p class="number">
+                      32.3 ± 15.5
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="85.3">
+                    <p class="number highlight">
+                      85.3 ± 1.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="61.3">
+                    <p class="number">
+                      61.3 ± 0.4
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="36.1">
+                    <p class="number">
+                      36.1 ± 4.8
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="85.2">
+                    <p class="number">
+                      85.2 ± 10.3
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="50.0">
+                    <p class="number highlight">
+                      50.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="18.3">
+                    <p class="number">
+                      18.3 ± 5.2
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="0.0">
+                    <p class="number">
+                      0.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="41.3">
+                    <p class="number highlight">
+                      41.3 ± 19.6
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number highlight">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="3.5">
+                    <p class="number">
+                      3.5 ± 2.9
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-2024-08-06 (planning)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="7.3" class="sorting_1">
+                    <p class="number">
+                      7.3
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="30.0">
+                    <p class="number highlight">
+                      30.0 ± 26.5
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="29.4">
+                    <p class="number">
+                      29.4 ± 12.5
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="52.7">
+                    <p class="number">
+                      52.7 ± 0.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="59.2">
+                    <p class="number">
+                      59.2 ± 5.7
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="33.3">
+                    <p class="number">
+                      33.3 ± 0.0
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="82.0">
+                    <p class="number">
+                      82.0 ± 8.6
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="13.0">
+                    <p class="number">
+                      13.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="64.6">
+                    <p class="number">
+                      64.6 ± 23.7
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="50.0">
+                    <p class="number">
+                      50.0 ± 57.7
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="35.3">
+                    <p class="number">
+                      35.3 ± 9.2
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number highlight">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="6.0">
+                    <p class="number">
+                      6.0 ± 5.5
+                    </p>
+                  </td>
+                </tr>
+                <tr style="cursor: pointer;" class="even">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-2024-08-06 (ref-plan)
+                    </p>
+                  </td>
+                  <!-- Avg Progress -->
+                  <td data-order="4.8" class="sorting_1">
+                    <p class="number highlight">
+                      4.8
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII -->
+                  <td data-order="23.3">
+                    <p class="number">
+                      23.3 ± 20.8
+                    </p>
+                  </td>
+                  <!-- SuperMario -->
+                  <td data-order="34.1">
+                    <p class="number highlight">
+                      34.1 ± 14.2
+                    </p>
+                  </td>
+                  <!-- AceAttorney -->
+                  <td data-order="52.8">
+                    <p class="number">
+                      52.8 ± 0.5
+                    </p>
+                  </td>
+                  <!-- HerStory -->
+                  <td data-order="61.8">
+                    <p class="number">
+                      61.8 ± 4.9
+                    </p>
+                  </td>
+                  <!-- Pokemon -->
+                  <td data-order="38.9">
+                    <p class="number highlight">
+                      38.9 ± 9.6
+                    </p>
+                  </td>
+                  <!-- DarkestDungeon -->
+                  <td data-order="91.6">
+                    <p class="number">
+                      91.6 ± 2.5
+                    </p>
+                  </td>
+                  <!-- Minecraft -->
+                  <td data-order="50.0">
+                    <p class="number highlight">
+                      50.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- Stardew -->
+                  <td data-order="95.7">
+                    <p class="number highlight">
+                      95.7 ± 5.7
+                    </p>
+                  </td>
+                  <!-- StarCraft2 -->
+                  <td data-order="100.0">
+                    <p class="number highlight">
+                      100.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- SlayTheSpire -->
+                  <td data-order="36.0">
+                    <p class="number">
+                      36.0 ± 25.5
+                    </p>
+                  </td>
+                  <!-- BabaIsYou -->
+                  <td data-order="20.0">
+                    <p class="number highlight">
+                      20.0 ± 0.0
+                    </p>
+                  </td>
+                  <!-- 2048 -->
+                  <td data-order="7.0">
+                    <p class="number highlight">
+                      7.0 ± 5.7
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table></div>
+          </div>
+          
+          <div class="tabcontent" style="display: none;" id="performance-Arena">
+            <!-- Assign an ID to your table -->
+            <div id="performance-table-Arena_wrapper" class="dataTables_wrapper no-footer"><table id="performance-table-arena" class="table scrollable dataTable no-footer">
+              <thead>
+                <tr><th class="sorting" tabindex="0" aria-controls="performance-table-arena" rowspan="1" colspan="1" aria-label="
+                    Agent
+                  : activate to sort column ascending" style="width: 0px;">
+                    <div class="sticky-header-content">Agent</div>
+                  </th><th class="sorting sorting_desc" tabindex="0" aria-controls="performance-table-arena" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+                    Avg.Rank
+                  : activate to sort column ascending" style="width: 0px;">
+                    <div class="sticky-header-content">Avg.Rank</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-arena" rowspan="1" colspan="1" aria-label="
+                    StreetFighterIII
+                  : activate to sort column descending" style="width: 0px;">
+                    <div class="sticky-header-content">Elo in StreetFighterIII</div>
+                  </th><th class="sorting" tabindex="0" aria-controls="performance-table-arena" rowspan="1" colspan="1" aria-label="
+                    StarCraftII
+                  : activate to sort column descending" style="width: 0px;">
+                    <div class="sticky-header-content">Elo in StarCraftII</div>
+                  </th></tr>
+              </thead>
+              <tbody>
+                
+                
+              <tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Llama-3.2-3B-it (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="7.5" class="sorting_1">
+                    <p class="number">
+                      7.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1358.4">
+                    <p class="number">
+                      1358.4
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1424.9">
+                    <p class="number">
+                      1424.9
+                    </p>
+                  </td>
+                </tr><tr style="cursor: pointer;" class="even">
+                  <td>
+                    <p class="model-type">
+                      ✔️Qwen-2.5-7B-it (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="6.5" class="sorting_1">
+                    <p class="number">
+                      6.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1415.4">
+                    <p class="number">
+                      1415.4
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1680.1">
+                    <p class="number">
+                      1445.2
+                    </p>
+                  </td>
+                </tr><tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Minitron-8B-it (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="1.5" class="sorting_1">
+                    <p class="number">
+                      1.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1680.1">
+                    <p class="number">
+                      1680.1
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1525.0">
+                    <p class="number">
+                      1525.0
+                    </p>
+                  </td>
+                </tr><tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-mini-2025-04-16 (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="4.5" class="sorting_1">
+                    <p class="number">
+                      4.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1453.0">
+                    <p class="number">
+                      1453.0
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1500.0">
+                    <p class="number">
+                      1500.0
+                    </p>
+                  </td>
+                </tr><tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️GPT-4o-2024-08-06 (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="3" class="sorting_1">
+                    <p class="number">
+                      3
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1602.9">
+                    <p class="number">
+                      1602.9
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1525.0">
+                    <p class="number">
+                      1525.0
+                    </p>
+                  </td>
+                </tr><tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️o3-mini-2025-01-31 (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="2" class="sorting_1">
+                    <p class="number">
+                      2
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1602.9">
+                    <p class="number">
+                      1602.9
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1500.0">
+                    <p class="number">
+                      1500.0
+                    </p>
+                  </td>
+                </tr><tr style="cursor: pointer;" class="odd">
+                  <td>
+                    <p class="model-type">
+                      ✔️Claude-3.7-sonnet (zero-shot)
+                    </p>
+                  </td>
+                  <!-- Use data-order for sorting -->
+                  <td data-order="3.5" class="sorting_1">
+                    <p class="number">
+                      3.5
+                    </p>
+                  </td>
+                  <!-- StreetFighterIII Column -->
+                  <td data-order="1434.3">
+                    <p class="number">
+                      1434.3
+                    </p>
+                  </td>
+                  <!-- StarCraftII Column -->
+                  <td data-order="1550.1">
+                    <p class="number">
+                      1550.1
+                    </p>
+                  </td>
+                </tr></tbody>
+            </table></div>
+          </div>
+          
+          <p class="text-content">
+            - The leaderboard is lastly updated at <b>2025.06.09</b>.
+            <br>
+            - The <span style="color:var(--lighted_accent_color);"><b>Avg.Rank</b></span> metric refers to the ranking of the agent over all 12 games in Orak.
+            <br>
+            - <span style="color:var(--lighted_accent_color);"><b>✔️ Checked</b></span> indicates that we, the Orak team at <a href="https://www.krafton.ai/en/">KRAFTON AI</a>,
+            acknowledged the result by accepting code submssion and reproducing the game score.
+            <br>
+            - If you want to submit your model and agentic strategy to the leaderboard, please check the <a href="https://github.com/krafton-ai/Orak/blob/release/docs/submission_guideline.md">submission</a> guideline document.
+          </p>
+        </div>
+      </div>
+      <div class="content-wrapper">
+        <div class="content-box">
+          <h2 class="text-title">Overview</h2>
+
+          <div style="display: flex; justify-content: center; gap: 0px; align-items: center; flex-wrap: wrap;">
+            <figure style="text-align: center; margin: 20px;">
+              <img src="./Orak_files/figure1_ORAK_overview.png" style="width:100%; max-width: 800px;">
+              <figcaption>ORAK benchmark overview</figcaption>
+            </figure>
+            <figure style="text-align: center; margin: 20px;">
+              <img src="./Orak_files/claude_playing_pwaat_GIF.gif" style="width:100%; max-width: 440px;">
+              <figcaption>Claude playing "Ace Attorney"</figcaption>
+            </figure>
+            <figure style="text-align: center; margin: 20px;">
+              <img src="./Orak_files/claude_playing_baba_is_you_GIF.gif" style="width:100%; max-width: 440px;">
+              <figcaption>Claude playing "Baba Is You"</figcaption>
+            </figure>
+          </div>
+          <p class="text-content">
+            Orak is a benchmark for evaluating the agentic capabilities of LLMs on diverse video games. Check out more details in our <a href="https://arxiv.org/pdf/2506.03610#" ,="" target="_blank">paper</a> and github <a href="https://arxiv.org/pdf/2506.03610#" ,="" target="_blank">repo</a>!
+          </p>
+          <h3 class="text-title" style="margin-bottom:0.5em">Citation</h3>
+          <pre id="citation"><code>@article{park2025orak,
+  title     = {Orak: A Foundational Benchmark for Training and Evaluating LLM Agents on Diverse Video Games},
+  author    = {Park, Dongmin and Kim, Minkyu and Choi, Beongjun and Kim, Junhyuck and Lee, Keon and Lee, Jonghyun and Park, Inkyu and Lee, Byeong-Uk and Hwang, Jaeyoung and Ahn, Jaewoo and Mahabaleshwarkar, Ameya S. and Kartal, Bilal and Biswas, Pritam and Suhara, Yoshi and Lee, Kangwook and Cho, Jaewoong},
+  year      = {2025},
+  eprint    = {2506.03610},
+  archivePrefix = {arXiv},
+  note      = {arXiv:2506.03610}
+}</code></pre>
+          <p class="text-content" style="margin-bottom: 0;">
+          <p class="text-content">
+            Correspondence to: <a href="mailto:dongmin.park@krafton.com">dongmin.park@krafton.com</a>, and thanks to the website template from <a href="https://balrogai.com/">BARLOG</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- Remove the sorttable.js scripts -->
+  <!-- Include jQuery and DataTables JS -->
+  <script src="./Orak_files/jquery-3.7.1.min.js"></script>
+  <script src="./Orak_files/jquery.dataTables.min.js"></script>
+  <script src="./Orak_files/theme.js"></script>
+
+  <!-- Initialize DataTables -->
+  <script>
+    $(document).ready(function () {
+      // Initialize DataTables for each performance table
+      
+      $('#performance-table-leaderboard').DataTable({
+        "paging": false,
+        "ordering": true,
+        "info": false,
+        "searching": false,
+        "order": [[1, "asc"]], // Set default ordering to the Average column in descending order
+        "columnDefs": [
+          {
+            "orderSequence": ["desc", "asc"],
+            "targets": [
+              1, // % AvgRank
+              2, // SF3
+              3, // Supermario
+              4, // AceAttorney
+              5, // HerStory
+              6, // PokemonRed
+              7, // DarkestDungeon
+              8,  // Minecraft
+              9,  // StardewValley
+              10,  // StarCraftII
+              11,  // SlayTheSpire
+              12,  // BabaIsYou
+              13,  // 2048
+            ]
+          }
+        ]
+      });
+    
+      $('#performance-table-arena').DataTable({
+        "paging": false,
+        "ordering": true,
+        "info": false,
+        "searching": false,
+        "order": [[1, "asc"]], // Set default ordering to the Average column in descending order
+        "columnDefs": [
+          {
+            "orderSequence": ["desc", "asc"],
+            "targets": [
+              1, // Avg.Rank
+              2, // SF3
+              3, // StarCraftII
+            ]
+          }
+        ]
+      });
+    
+    });
+  </script>
+  <script>
+    function openPerformance(type) {
+      var tabcontent = document.getElementsByClassName("tabcontent");
+      for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      var tablinks = document.getElementsByClassName("tablinks");
+      for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+
+      document.getElementById(`performance-${type}`).style.display = "block";
+      document.querySelector(`[data-performance="${type}"]`).classList.add("active");
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var tabs = document.querySelectorAll('.tablinks');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function (event) {
+          openPerformance(this.getAttribute('data-performance'));
+        });
+      });
+
+      // Open the 'Leaderboard' by default
+      openPerformance('Leaderboard');
+    });
+  </script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
